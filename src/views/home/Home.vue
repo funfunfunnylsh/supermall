@@ -73,7 +73,8 @@
         currentType: POP,
         isTabFixed: false,
         tabOffsetTop: 0,
-        showBackTop: false
+        showBackTop: false,
+        saveY : 0
       }
     },
     computed: {
@@ -98,9 +99,14 @@
       })
     },
      activated: function () {
+       this.$refs.scroll.scrollTo(0,saveY,0)
+       this.$refs.scroll.refresh()
+
        this.$refs.hSwiper.startTimer()
      },
      deactivated: function () {
+       this.saveY = this.$refs.scroll.getScrollY()
+
        this.$refs.hSwiper.stopTimer()
      },
      updated() {

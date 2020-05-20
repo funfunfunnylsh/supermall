@@ -1,9 +1,15 @@
 <template>
+  <deatail-nav-bar></deatail-nav-bar>
 </template>
 
 <script>
+  import DeatailNavBar from './childComps/DetailNavBar'
+
   export default{
-    name:'Detail'
+    name:'Detail',
+    components:{
+      DeatailNavBar
+    }
   }
 </script>
 

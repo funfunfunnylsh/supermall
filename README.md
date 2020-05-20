@@ -1,4 +1,4 @@
-# minimall
+# supermall
 
 ## Project setup
 ```
