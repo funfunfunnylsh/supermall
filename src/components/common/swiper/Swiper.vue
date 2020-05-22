@@ -50,26 +50,27 @@
 
         // 2.开启定时器
         this.startTimer();
-      }, 3000)
+      }, 200)
     },
     methods: {
 		  /**
        * 定时器操作
        */
-      startTimer: function () {
+      startTimer() {
 		    this.playTimer = window.setInterval(() => {
 		      this.currentIndex++;
 		      this.scrollContent(-this.currentIndex * this.totalWidth);
         }, this.interval)
       },
-      stopTimer: function () {
+      stopTimer() {
         window.clearInterval(this.playTimer);
+		
       },
 
       /**
        * 滚动到正确的位置
        */
-      scrollContent: function (currentPosition) {
+      scrollContent(currentPosition) {
         // 0.设置正在滚动
         this.scrolling = true;
 
@@ -87,7 +88,7 @@
       /**
        * 校验正确的位置
        */
-      checkPosition: function () {
+      checkPosition() {
         window.setTimeout(() => {
           // 1.校验正确的位置
           this.swiperStyle.transition = '0ms';
@@ -107,7 +108,7 @@
       /**
        * 设置滚动的位置
        */
-      setTransform: function (position) {
+      setTransform(position) {
         this.swiperStyle.transform = `translate3d(${position}px, 0, 0)`;
         this.swiperStyle['-webkit-transform'] = `translate3d(${position}px), 0, 0`;
         this.swiperStyle['-ms-transform'] = `translate3d(${position}px), 0, 0`;

@@ -25,11 +25,10 @@
         default:()=>{
           return ['商品', '参数', '评论', '推荐']
         }
-      }
-    },
-    data(){
-      return {
-        currentIndex : 0
+      },
+      currentIndex: {
+        type: Number,
+        default: 0
       }
     },
     methods:{
@@ -38,6 +37,7 @@
       },
       itemClick(index){
         this.currentIndex = index
+        this.$emit('itemClick',index)
       }
     }
   }

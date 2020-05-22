@@ -18,7 +18,7 @@
      <tab-control @itemClick="tabClick"
                   :titles="['流行', '新款', '精选']"
                   ref="tabControl"></tab-control>
-     <goods-list :goods-list="showGoodsList"/>
+     <goods-list :goods-list="showGoodsList" @imageLoaded="imageLoaded"/>
    </scroll>
    <back-top v-show="showBackTop" @backTop="backTop" class="back-top">
      <img src="~assets/img/common/top.png" alt="">
@@ -29,7 +29,7 @@
 <script>
   import {getHomeMultidata , getProductData, RECOMMEND, BANNER} from 'network/home';
   import {NEW,POP,SELL,BACKTOP_DISTANCE} from "common/constant";
-  import {debonce} from 'common/util'
+  import {imgLoadMixin,backTopMixin} from 'common/mixin'
 
   import Scroll from 'components/common/scroll/Scroll'
   import NavBar from 'components/common/navbar/NavBar'
@@ -73,7 +73,6 @@
         currentType: POP,
         isTabFixed: false,
         tabOffsetTop: 0,
-        showBackTop: false,
         saveY : 0
       }
     },
@@ -91,23 +90,16 @@
       this.getHomeProducts(NEW)
       this.getHomeProducts(SELL)
     },
-    mounted() {
-      const refresh = debonce(this.$refs.scroll.refresh(),100)
-
-      this.$bus.$on('imageLoaded',()=>{
-        refresh()
-      })
-    },
-     activated: function () {
-       this.$refs.scroll.scrollTo(0,saveY,0)
-       this.$refs.scroll.refresh()
-
+    mixins:[imgLoadMixin,backTopMixin],
+     activated () {
        this.$refs.hSwiper.startTimer()
+      
+       this.$refs.scroll.scrollTo(0,this.saveY,0)
+       this.$refs.scroll.refresh()
      },
-     deactivated: function () {
-       this.saveY = this.$refs.scroll.getScrollY()
-
+     deactivated () {
        this.$refs.hSwiper.stopTimer()
+       this.saveY = this.$refs.scroll.getScrollY()
      },
      updated() {
        this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
@@ -138,8 +130,8 @@
       loadMore() {
         this.getHomeProducts(this.currentType)
       },
-      backTop() {
-        this.$refs.scroll.scrollTo(0, 0, 300)
+      imageLoaded(){
+        this.refresh()
       },
       getMultiData() {
         getHomeMultidata().then(res => {

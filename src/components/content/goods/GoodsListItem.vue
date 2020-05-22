@@ -25,7 +25,7 @@
     },
     methods: {
       imageLoad() {
-         this.$bus.$emit('imageLoaded')
+         this.$emit('imageLoaded')
       },
       goToDetail: function () {
         // 1.获取iid

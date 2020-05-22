@@ -30,7 +30,7 @@
 		},
 		methods:{
 			onItemClick(){
-				this.$router.replace(this.path)
+				!this.isActive && this.$router.replace(this.path)
 			}
 		}
 	}
