@@ -24,6 +24,7 @@
 <script>
   import {getDetail, getRecommend, Goods, Shop, GoodsParam} from "network/detail";
   import {imgLoadMixin,backTopMixin} from 'common/mixin'
+  import { mapActions } from 'vuex'
 
   import Scroll from 'components/common/scroll/Scroll'
   import DetailNavBar from './childComps/DetailNavBar'
@@ -78,6 +79,7 @@
     },
 
     methods: {
+      ...mapActions(['addCart']),
       _getDetailData() {
         // 1.获取iid
         const iid = this.$route.params.iid
@@ -131,7 +133,15 @@
         obj.desc = this.goods.desc;
         obj.newPrice = this.goods.nowPrice;
         // 3.添加到Store中
-        // this.$store.commit('addCart', obj)
+        // this.$store.dispatch('addCart', obj).then(res=>{
+        //   console.log(res)
+        // })
+        //使用mapActions添加到Store中
+        this.addCart(obj).then(res=>{
+          console.log(res)
+          this.$toast.show(res,2000)
+        })
+
       },
       imageLoaded(){
         this.refresh()
